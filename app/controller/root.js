@@ -1,15 +1,13 @@
-define(["lib/controller"], function (Controller) {
-  var parent = Controller;
-  
+define(["lib/controller"], function (parent) {
   function Root() {
     parent.apply(this, arguments);
   }
   
-  var fn = Controller.extends(Root);
+  var fn = parent.extends(Root);
 
   fn["page.blog"] = function (id) {
     this.model.update({
-      page: "blog"
+      page: "blog",
       id: id
     });    
   };

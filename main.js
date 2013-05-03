@@ -1,13 +1,15 @@
 var requirejs = require("requirejs");
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
 
-requirejs(["app/di/server", "app/router"], function (server, Router) {
-  
+requirejs(["restify", "app/router"], function (restify, Router) {
+  var server = restify.createServer();
+
   server.get("/blog/:id", function (req, res, next) {
     var router = new Router();
     router.blog(req.params.id);
+    router.finish();
   });
-  
+
   server.get("/category/:id", function (req, res, next) {
     var router = new Router(req, res, next);
     router.category(req.params.id);
@@ -24,4 +26,5 @@ requirejs(["app/di/server", "app/router"], function (server, Router) {
   
   var router = new Router();
   router.blog(1);
+
 });

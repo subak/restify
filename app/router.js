@@ -1,20 +1,25 @@
-define(function (require) {
-  var R = require("lib/router"),
-    Model = require("lib/model"),
-    View = require("lib/view"),
-    RootController = require("app/controller/root");
-
+define(["lib/router", "lib/model", "lib/view", "app/controller/root"], function (parent, Model, View, RootController) {
   function Router(req, res, next) {
+    parent.apply(this, arguments);
+
+    this.req = req;
+    this.res = res;
+    this.next = next;
+
     this.rootModel = new Model();
     this.rootView  = new View(this.rootModel);
     this.rootController = new RootController(this.rootModel);
-    this.dispatchViewEventOnController(rootView, rootController);
+    this.dispatchViewEventOnController(this.rootView, this.rootController);
   }
 
-  var fn = R.extends(Router);
+  var fn = parent.extends(Router);
 
   fn.blog = function (id) {
     this.rootView.trigger("page.blog", id);
+  }
+
+  fn.finish = function () {
+    this.res.send(this.rootView.product());
   }
 
   return Router;
