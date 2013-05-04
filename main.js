@@ -1,13 +1,17 @@
 var requirejs = require("requirejs");
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
 
+var http = require("http");
+
 requirejs(["restify", "app/router"], function (restify, Router) {
   var server = restify.createServer();
 
   server.get("/blog/:id", function (req, res, next) {
     var router = new Router();
     router.blog(req.params.id);
-    router.finish();
+    
+    //debugger
+    //router.finish();
   });
 
   server.get("/category/:id", function (req, res, next) {
@@ -20,11 +24,11 @@ requirejs(["restify", "app/router"], function (restify, Router) {
     router.entry(req.params.id);
   });
 
-  // server.listen(8081, function(a, b, c, d) {
-  //   console.log("init");
-  // });
+  server.listen(8081, function(a, b, c, d) {
+    console.log("init");
+  });
   
-  var router = new Router();
-  router.blog(1);
+  // var router = new Router();
+  // router.blog(1);
 
 });
